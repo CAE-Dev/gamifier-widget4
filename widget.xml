@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Gamifier" description="Gamifier of Game"
+    author="Muhammad Abduh Arifin" author_email="arifin@dbis.rwth-aachen.de"
+    width="700" height="650">
+
+    <Require feature="opensocial-0.8"></Require>
+    <Require feature="openapp"></Require>
+    <Require feature="dynamic-height"></Require>
+    <Require feature="minimessage"></Require>
+
+    <OAuth>
+      <Service name="openapp"
+        xmlns:openapp="http://www.role-project.eu/xml/openapp/opensocialext/"
+        openapp:service="http://purl.org/role/terms/spaceService"
+        openapp:permitReadAppend="http://purl.org/role/terms/data">
+        <Request method="" url=""></Request>
+        <Authorization url=""></Authorization>
+        <Access method="" url=""></Access>
+      </Service>
+    </OAuth>
+
+  </ModulePrefs>
+  <Content type="html">
+  <![CDATA[
+  <!-- Bootstrap stylesheet import -->
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/css/style.css" rel="stylesheet" id="bootstrap-css">
+  
+  <!-- import jQuery for AJAX calls -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- import Bootstrap for responsive UI -->
+  <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <!-- OpenApp import -->
+  <!-- <script type="text/javascript" src="http://open-app.googlecode.com/files/openapp.js"></script> -->
+  <!-- inter widget communication library import -->
+  
+   <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/lib/iwc.js"></script>
+  <!-- import the client library -->
+  
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/lib/las2peerWidgetLibrary.js"></script>
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/lib/lodash.js"></script>
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/lib/oidc-widget.js"></script>
+  <!-- import application script -->
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/client.js"></script>
+  <script type="text/javascript" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/js/applicationScript.js"></script>
+  <script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.6.3/js/lib/beautify.js"></script>
+
+
+  
+  
+
+<!-- Help modal -->
+<div class="modal fade" id="helpConfigure">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Help Configure Game Elements</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item">            
+              <p>You need to configure the game elements in Gamification Manager first before integrating it with the application</p>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="helpLoadData">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Help Load Data</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item">            
+              <p>In this section, you need to load the actions of a game that you have defined in Gamification Manager and also load the HTML Elements' event from the CAE model</p>
+            </li>
+            <li class="list-group-item">            
+              <p>Put the Game ID of the game that you already created before in input box and click 'Load Data'</p>
+            </li>
+            <li class="list-group-item">            
+              <p>You will be automatically directed to the next section once all data are loaded</p>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="helpMatchData">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Help Match Data</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item">            
+              <p>In this section, you will match the actions (red color) that you have already defined in Gamification Manager with HTML Elements' event (blue color) that you created in the model</p>
+            </li>
+            <li class="list-group-item">            
+              <p>The HTML Elements' event that are shown in blue cells only show the events that have the relation (HTML Element-Event-Function)</p>
+            </li>
+            <li class="list-group-item">            
+              <p>You can match each HTML Element' event with each action by selecting the action in 'Select Action' column</p>
+            </li>
+            <li class="list-group-item">            
+              <p>You can clear the selected action using 'clear' option or 'Clear all'</p>
+            </li>
+          </ul>
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="helpGenerate">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Help</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item">            
+              <p>In this section, you can generate a new repository contains the gamified version source code of the application and generate a new space (by checking the 'Generate Space')</p>
+            </li>
+            <li class="list-group-item">            
+              <p>You can define the name of repository in the input box. The name of new generated space will be the same as the new repository name. </p>
+            </li>
+            <li class="list-group-item">            
+              <p>The link will appear below the input box</p>
+            </li>
+          </ul>
+
+
+        
+        </div>
+      </div>
+    </div>
+</div>
+
+  <div class="container" id="login-text">
+    <div class="row">
+      <div class="col-xs-6">
+        <h4>
+        Loading...
+        </h4>
+      </div>
+      <div class="col-xs-6">
+        <input type="text" class="form-control pull-right" id="status" placeholder="Status.." readonly>
+      </div>
+    </div>
+  </div>
+
+<script id="content" type="text/template">
+
+<div class="container">
+<div class="tab-content">
+  <div id="1" class="tab-pane fade in active">
+      <div class="panel panel-primary">
+        <div class="panel-heading">1. Configure Game Elements <a data-toggle="modal" data-target="#helpConfigure" style="text-decoration: none;" title="Help"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="color:white"></span></a></div>
+          <div class="panel-body">
+
+            <p>Configure the game elements here: <a href="http://gaudi.informatik.rwth-aachen.de:8073/spaces/gamificationmanagerevalfour" target="_blank">Gamification Manager</a></p>
+
+          </div>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">2. Load Data <a data-toggle="modal" data-target="#helpLoadData" style="text-decoration: none;" title="Help"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="color:white"></span></a></div>
+          <div class="panel-body">
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button id="load-data" class="btn btn-secondary" type="button">Load Data</button>
+                </span>
+                <input type="text" class="form-control" id="gameid" placeholder="Game ID">
+              </div>
+            </div>
+
+          </div>
+      </div>
+
+
+  </div>
+  <div id="2" class="tab-pane fade">
+      <div class="panel panel-primary">
+        <div class="panel-heading">3. Match Data <a data-toggle="modal" data-target="#helpMatchData" style="text-decoration: none;" title="Help Match Data"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="color:white"></span></a></div>
+          <div class="panel-body">
+
+         <div style="width:100%; height:400px; overflow:auto;">
+          <table class="table table-bordered" id='relation'>
+          <colgroup>
+            <col span="4" style="background-color:#d9edf7">
+            <col span="1" style="background-color:#ffffff">
+            <col span="2" style="background-color:#ffedf7">
+          </colgroup>
+           <thead class="thead-inverse">
+            <tr>
+              <th colspan="4" class="text-center">Event</th>
+              <th colspan="3" class="text-center" style="background-color:#ffedf7">Action</th>
+            <tr>
+              <th>Element Type</th>
+              <th>ID Name</th>
+              <th>Cause</th>
+              <th>Function</th>
+              <th>Action</th>
+              <th>Select Action</th>
+              <th>Clear</th>
+          </thead>
+
+          <tbody>
+          </tbody>
+          </table>
+          <label><a id="go-next-integrate-phase">Go to the next section after you match the data >></a></label>
+        </div>
+          
+          </div>
+      </div>
+
+
+
+  </div>
+
+  <div id="3" class="tab-pane fade">
+      
+      <div class="panel panel-primary">
+          <div class="panel-heading">4. Generate Repository and Space <a data-toggle="modal" data-target="#helpGenerate" style="text-decoration: none;" title="Help"><span class="glyphicon glyphicon-question-sign" aria-hidden="true" style="color:white"></span></a>
+        </div>
+          <div class="panel-body">
+
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="form-group">
+              <label><input type="checkbox" id="generate-space" value="false" title="Existing space will be overwritten"> Generate Space</label> 
+               <div class="input-group">
+                  <span class="input-group-btn">
+                    <button id="generate-repo" class="btn btn-secondary" type="button">Deploy</button>
+                  </span>
+                  <input type="text" class="form-control" id="newRepoName" placeholder="Repository Name">
+                </div>
+              </div>
+
+            </li>
+            <li class="list-group-item">
+                <div>
+                   <label>New Repo: <a style="cursor:pointer;" id="urlRepo" target="_blank"></a></label>
+                  </div>
+                  <div>
+                     <label>New Space: <a style="cursor:pointer;" id="urlSpace" target="_blank"></a></label>
+                </div>
+            </li>
+          </ul>
+
+
+          </div>
+      </div>
+
+
+
+  </div>
+
+</div>
+</div>
+
+<div class="container text-center">
+
+  <ul class="pagination">  
+
+
+    <li class="active"><a data-toggle="tab" href="#1">Design</a></li>
+    <li><a data-toggle="tab" href="#2">Integrate</a></li>
+    <li><a data-toggle="tab" href="#3">Play</a></li>
+
+  </ul>
+</div>
+</script>
+
+<div class="content-wrapper">
+</div>
+
+
+
+<div id="modalspinner" style="display: none">
+    <div class="center">
+        <img alt="" src="https://dl.dropboxusercontent.com/u/57683747/gamifier_game/img/loader.svg" />
+    </div>
+</div>
+
+  ]]>
+  </Content>
+
+</Module>
